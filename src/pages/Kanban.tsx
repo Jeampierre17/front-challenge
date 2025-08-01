@@ -164,7 +164,7 @@ const Kanban: React.FC = () => {
             <div className="sm:hidden mb-2">
               <button
                 type="button"
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-pink-500 dark:bg-pink-600 dark:text-gray-100 rounded-lg border border-gray-200 dark:border-gray-700 text-white dark:text-gray-100 font-medium"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-pink-500 dark:bg-pink-600  rounded-lg border border-gray-200 dark:border-gray-700 text-white dark:text-gray-100 font-medium"
                 onClick={() => setShowFilters(true)}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" /></svg>

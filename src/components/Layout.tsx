@@ -69,7 +69,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <img src="/vertical.svg" alt="Logo" className="h-10 ml-1 mt-3" />
               {pageTitle && (
                 <>
-                  <span className="hidden md:inline-block text-2xl font-bold text-pink-600 select-none border-l border-gray-200 dark:border-gray-700 pl-2 ml-1 font-quicksand font-semibold">{pageTitle}</span>
+                  <span className="hidden md:inline-block text-2xl font-bold text-pink-600 select-none border-l border-gray-200 dark:border-gray-700 pl-2 ml-1 font-quicksand ">{pageTitle}</span>
                   <span className="md:hidden text-lg font-bold text-pink-600 select-none border-l border-gray-200 dark:border-gray-700 pl-3 ml-1 font-quicksand">{pageTitle.split(' ')[0]}</span>
                 </>
               )}

@@ -141,7 +141,7 @@ const Products: React.FC = () => {
             >
               <h3 className="text-2xl font-bold text-pink-600 dark:text-pink-400 mb-2 flex items-center gap-2">Cargando catálogo...</h3>
               <p className="text-gray-500 dark:text-gray-400 mb-4">Por favor espera, estamos trayendo los mejores productos</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-8 w-full w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-8  w-full">
                 {Array.from({ length: 8 }).map((_, i) => (
                   <SkeletonCard key={i} />
                 ))}
