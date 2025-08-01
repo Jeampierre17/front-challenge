@@ -1,56 +1,156 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { useTheme } from '../hooks/useTheme'
-import ThemeToggle from './ThemeToggle'
+import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import AnimatedPage from './AnimatedPage';
+import { Link } from 'react-router-dom';
+import ThemeToggle from './ThemeToggle';
+import { HomeIcon, ViewColumnsIcon, ShoppingBagIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+
+const navigationItems = [
+  { path: '/', label: 'Inicio', icon: HomeIcon },
+  { path: '/kanban', label: 'Kanban', icon: ViewColumnsIcon },
+  { path: '/products', label: 'Productos', icon: ShoppingBagIcon },
+];
+
+import { usePageTitle } from '../hooks/usePageTitle';
+import { Toaster } from 'sonner';
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const location = useLocation()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { pageTitle } = usePageTitle();
 
   return (
-    <div className="min-h-screen bg-bg-primary">
-      <header className="bg-bg-secondary border-b border-border-color shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <nav className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <h1 className="text-xl font-bold text-text-primary">
-                Dashboard App
-              </h1>
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/kanban"
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === '/kanban'
-                      ? 'bg-color-primary text-white'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary'
-                  }`}
-                >
-                  Kanban
-                </Link>
-                <Link
-                  to="/products"
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    location.pathname === '/products'
-                      ? 'bg-color-primary text-white'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-tertiary'
-                  }`}
-                >
-                  Productos
-                </Link>
-              </div>
-            </div>
-            <ThemeToggle />
-          </nav>
-        </div>
-      </header>
-      <main className="flex-1 container mx-auto px-4 py-8">
-        {children}
-      </main>
-    </div>
-  )
-}
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 flex flex-col relative">
+      {/* Header */}
+      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Toaster
+              position="top-right"
+              richColors
+              closeButton
+              gap={18}
+              toastOptions={{
+                style: {
+                  background: '#ec4899',
+                  color: '#fff',
+                  minWidth: '220px',
+                  maxWidth: '320px',
+                  fontWeight: 500,
+                  fontFamily: 'Quicksand, Arial, sans-serif',
+                  boxShadow: '0 2px 16px 0 rgba(236,72,153,0.10)',
+                  borderRadius: '0.75rem',
+                  marginTop: '8px',
+                  marginBottom: '8px',
+                  alignItems: 'center',
+                  display: 'flex',
+                },
+              }}
+            />
 
-export default Layout 
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Abrir menú"
+            >
+              {mobileMenuOpen ? (
+                <XMarkIcon className="w-6 h-6" />
+              ) : (
+                <Bars3Icon className="w-6 h-6" />
+              )}
+            </button>
+
+            {/* Logo + Title */}
+            <div className="flex items-center gap-1 md:gap-2">
+              <img src="/vertical.svg" alt="Logo" className="h-10 ml-1 mt-3" />
+              {pageTitle && (
+                <>
+                  <span className="hidden md:inline-block text-2xl font-bold text-pink-600 select-none border-l border-gray-200 dark:border-gray-700 pl-2 ml-1 font-quicksand font-semibold">{pageTitle}</span>
+                  <span className="md:hidden text-lg font-bold text-pink-600 select-none border-l border-gray-200 dark:border-gray-700 pl-3 ml-1 font-quicksand">{pageTitle.split(' ')[0]}</span>
+                </>
+              )}
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex space-x-8">
+              {navigationItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${isActive
+                        ? 'bg-purple-100 dark:bg-pink-700 text-pink-700 dark:text-pink-200'
+                        : 'text-light-700 dark:text-light-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+
+
+
+            {/* Right side actions */}
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Overlay */}
+        {mobileMenuOpen && (
+          <nav className="fixed inset-0 z-50 md:hidden bg-white dark:bg-gray-900 bg-opacity-95 flex flex-col justify-center items-center transition-all duration-300">
+            <div className="flex flex-col space-y-4 w-full max-w-xs mx-auto">
+              {navigationItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center space-x-3 px-6 py-4 rounded-lg text-lg font-bold transition-colors duration-200 ${isActive
+                        ? 'bg-purple-100 dark:bg-pink-700 text-pink-700 dark:text-pink-200'
+                        : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      }`}
+                  >
+                    <Icon className="w-6 h-6" />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
+        )}
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-full px-6 sm:px-2 lg:px-8  lg:mx-10 py-4 flex-1 relative overflow-x-clip">
+        <AnimatePresence mode="wait" initial={false}>
+          <AnimatedPage key={location.pathname} className="h-full w-full">
+            {children}
+          </AnimatedPage>
+        </AnimatePresence>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+            Desarrollado con ❤️ por Jeampierre Gonzalez
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Layout;

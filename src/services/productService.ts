@@ -1,6 +1,6 @@
-import { ProductsResponse } from '../types'
+import type { ProductsResponse } from '../types'
 
-const API_URL = 'https://dummyjson.com/products?limit=20'
+const API_URL = 'https://dummyjson.com/products?limit=120'
 const FALLBACK_URL = '/data/products.json'
 
 export const fetchProducts = async (): Promise<ProductsResponse> => {

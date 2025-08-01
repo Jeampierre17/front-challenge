@@ -1,303 +1,123 @@
-# Dashboard Kanban + Catálogo E-commerce
+
+# Polpou Challenge Frontend
+
+Modern React + TypeScript + Vite application for the Polpou challenge.
 
 
+## Decisiones técnicas principales
 
-## 🚀 Características
+### 1. Estado global con Zustand
+Toda la gestión de estado global (carrito, filtros, tareas Kanban) se realiza con Zustand. Permite un estado reactivo, simple y escalable, sin la complejidad de Redux.
 
-### Dashboard Kanban
-- **3 columnas**: Por Hacer, En Progreso, Completado
-- **Drag & Drop**: Mover tareas entre columnas
-- **Edición inline**: Editar tareas directamente en las tarjetas
-- **Prioridades**: Alta, Media, Baja con indicadores visuales
-- **Filtros**: Por estado y prioridad
-- **Modo oscuro/claro**: Toggle de tema persistente
+### 2. Estilos con Tailwind CSS
+Tailwind se usa para estilos utilitarios, responsivos y dark mode. Se implementó un tema personalizado y variantes para modo oscuro. El enfoque utility-first permite iterar rápido en UI, mantener consistencia visual y evitar CSS innecesario. El grid de productos y los componentes clave usan clases Tailwind para adaptabilidad y diseño moderno.
 
-### Catálogo E-commerce
-- **Grid responsivo**: 4/2/1 columnas según breakpoint
-- **Product Cards**: Con imágenes lazy loading y skeleton
-- **Filtros avanzados**: Por categoría, precio, rating
-- **Búsqueda**: Con debounce de 300ms
-- **Formato de precios**: Localización con Intl.NumberFormat
-- **Rating visual**: Con estrellas y puntuación
-- **Descuentos**: Badges de porcentaje de descuento
+### 3. Accesibilidad
+Se auditaron y mejoraron los componentes clave para navegación por teclado, roles ARIA y feedback visual accesible. Se usa `jest-axe` y `axe-core` para pruebas automáticas.
 
-## 🛠️ Tecnologías
+### 4. Code Splitting y Suspense
+Las páginas principales (`Kanban`, `Products`) se cargan con `React.lazy` y `Suspense` para mejorar el rendimiento y reducir el tiempo de carga inicial.
 
-- **React 18+** con TypeScript 5+
-- **Vite** para build y desarrollo
-- **React Router** para navegación
-- **CSS Variables** para theming
-- **Testing Library** para tests
-- **Vitest** para testing
-- **ESLint** para linting
+### 5. Animaciones y Transiciones
+Se utiliza `framer-motion` para animaciones suaves en la carga de productos, transiciones de página y feedback visual (hover, drag, aparición de productos y skeletons).
 
-## 📦 Instalación
+### 6. Toasts y Feedback
+Se usa `sonner` para notificaciones tipo toast. Se implementó deduplicación robusta para evitar mensajes duplicados, incluso bajo React Strict Mode.
+
+### 7. ESLint y Calidad de Código
+Configuración moderna de ESLint con reglas estrictas y type-aware, usando `eslint-plugin-react-x` y `eslint-plugin-react-dom` para mejores prácticas en React y DOM.
+
+### 8. Stack Moderno
+- React 19
+- Vite 5
+- Tailwind CSS
+- TypeScript
+- Framer Motion
+- Sonner (Toaster)
+- Headless UI
+- Zustand
+- React Query
+- React Window
+- React Router
+- Testing Library, jest-axe, axe-core
+- PWA (Progressive Web App): El proyecto incluye soporte PWA para instalación en dispositivos y funcionamiento offline, usando manifest y service worker.
+
+
+## Testing, Accesibilidad y Performance
+
+### Testing
+
+El proyecto utiliza **Vitest** y **Testing Library** para pruebas unitarias y de integración. La configuración de tests se encuentra en `src/tests/setup.ts`.
+
+Para ejecutar los tests:
 
 ```bash
-# Instalar dependencias
-yarn install
-
-# Ejecutar en desarrollo
-yarn dev
-
-# Build para producción
-yarn build
-
-# Ejecutar tests
-yarn test
-
-# Ejecutar tests con cobertura
-yarn test:coverage
+npm run test
 ```
 
-## 🏗️ Arquitectura
+Para ver el coverage:
 
-```
-src/
-├── components/          # Componentes reutilizables
-│   ├── Layout.tsx      # Layout principal con navegación
-│   ├── ThemeToggle.tsx # Toggle de tema claro/oscuro
-│   ├── ProductCard.tsx # Tarjeta de producto
-│   ├── ProductFilters.tsx # Filtros del catálogo
-│   ├── KanbanColumn.tsx # Columna del tablero Kanban
-│   ├── TaskCard.tsx    # Tarjeta de tarea
-│   └── TaskForm.tsx    # Formulario de nueva tarea
-├── pages/              # Páginas principales
-│   ├── Kanban.tsx      # Dashboard Kanban
-│   └── Products.tsx    # Catálogo de productos
-├── hooks/              # Custom hooks
-│   └── useTheme.tsx    # Hook para gestión de tema
-├── services/           # Servicios de API
-│   └── productService.ts # Servicio de productos
-├── types/              # Tipos TypeScript
-│   └── index.ts        # Interfaces principales
-├── styles/             # Estilos globales
-│   └── index.css       # CSS con variables de tema
-└── tests/              # Configuración de tests
-    └── setup.ts        # Setup de testing
-```
-
-## 🎨 Diseño y UX
-
-- **Identidad visual propia**: Paleta de colores personalizada
-- **Responsive design**: Mobile-first con breakpoints optimizados
-- **Accesibilidad**: WCAG 2.1 AA, ARIA labels, keyboard navigation
-- **Performance**: Lazy loading, code splitting, optimizaciones
-- **Iconografía**: SVG icons integrados (🌞/🌚, 🛒, ⭐)
-
-## 🔧 Configuración
-
-### Variables de entorno
-```env
-VITE_API_URL=https://dummyjson.com/products
-```
-
-### Scripts disponibles
-- `yarn dev` - Servidor de desarrollo
-- `yarn build` - Build de producción
-- `yarn preview` - Preview del build
-- `yarn test` - Ejecutar tests
-- `yarn lint` - Linting del código
-- `yarn type-check` - Verificación de tipos
-
-## 📱 Responsive Breakpoints
-
-- **Mobile**: ≤ 767px (1 columna)
-- **Tablet**: 768px - 1279px (2 columnas)
-- **Desktop**: ≥ 1280px (4 columnas)
-
-## 🧪 Testing
-
-Cobertura de tests ≥ 80% en componentes críticos:
-- ProductCard
-- KanbanColumn
-- TaskCard
-- ThemeToggle
-
-
-## 🎯 Desafío Técnico - Frontend Senior
-
-### 📋 **Objetivo del Desafío**
-
-El candidato debe demostrar:
-
-1. **Elección inteligente de tecnologías** y librerías
-2. **Ojo de diseño** y capacidad de crear interfaces profesionales
-3. **Arquitectura sólida** y patrones de desarrollo avanzados
-4. **Optimización de performance** y experiencia de usuario
-
-### 🚀 **El Reto: Transformar este MVP en una Aplicación moderna , estetica y funcional**
-
-#### **Estado Actual del Proyecto**
-- ✅ Estructura base con React 18 + TypeScript
-- ✅ Tipos definidos para Task y Product
-- ✅ Componentes básicos sin estilos
-- ❌ **Sin funcionalidad de drag & drop** en Kanban
-- ❌ **Sin estilos ni diseño visual**
-- ❌ **Sin animaciones ni micro-interacciones**
-- ❌ **Sin paginación**
-
-#### **Lo que Debes Implementar**
-
-### 🎨 **1. Sistema de Diseño y Estilos**
-
-**Elige y justifica tu stack de diseño:**
 ```bash
-# Opciones recomendadas (elige la que mejor se adapte):
-# Opción A: Tailwind CSS + Headless UI
-yarn add tailwindcss @headlessui/react @heroicons/react
-
-# Opción B: Styled Components + Framer Motion
-yarn add styled-components framer-motion
-
-# Opción C: Bootstrap 5 + React Bootstrap
-yarn add bootstrap react-bootstrap
-
+npm run test:coverage
 ```
 
-**Criterios de evaluación:**
-- ✅ **Consistencia visual**: Sistema de colores, tipografía, espaciado
-- ✅ **Responsive design**: Mobile-first con breakpoints optimizados
-- ✅ **Dark/Light mode**: Implementación elegante del toggle existente
-- ✅ **BONUS**: Agregados que consideres.
+#### Accesibilidad (A11y)
 
-### 🎯 **2. Funcionalidad Drag & Drop para Kanban**
+Se usa **jest-axe** y **axe-core** para validar accesibilidad en componentes. Ejemplo de uso en un test:
 
-**Implementa drag & drop profesional:**
-```bash
-# Opciones (elige la más apropiada):
-# Opción A: @dnd-kit (moderno, accesible)
-yarn add @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities
-
-# Opción B: react-beautiful-dnd (establecido)
-yarn add react-beautiful-dnd @types/react-beautiful-dnd
-
-# Opción C: SortableJS (ligero)
-yarn add sortablejs @types/sortablejs
+```ts
+import { axe, toHaveNoViolations } from 'jest-axe';
+expect(await axe(container)).toHaveNoViolations();
 ```
 
-**Características requeridas:**
-- ✅ **Drag & drop fluido** entre columnas
-- ✅ **Animaciones suaves** durante el movimiento
-- ✅ **Feedback visual** (hover, dragging states)
-- ✅ **Accesibilidad** (keyboard navigation)
-- ✅ **Persistencia** del estado
+Puedes ver ejemplos en los archivos `.a11y.test.tsx` dentro de `src/tests/`.
 
-### 🛍️ **3. Mejoras del Catálogo E-commerce**
+### Performance
 
-**Optimiza la experiencia de compra:**
-```bash
-# Librerías recomendadas:
-yarn add react-virtualized # Para listas grandes
-yarn add react-intersection-observer # Lazy loading
-yarn add react-hook-form # Formularios
-yarn add zod # Validación
-```
+Para medir el rendimiento, se utiliza **Lighthouse**. El reporte se genera automáticamente y se guarda en `lighthouse-report.html`.
 
-**Funcionalidades a implementar:**
-- ✅ **Grid responsivo** (4/2/1 columnas según breakpoint)
-- ✅ **Lazy loading** de imágenes con skeleton
-- ✅ **Filtros avanzados** con URL sync
-- ✅ **Búsqueda inteligente** con debounce
-- ✅ **Animaciones** en hover y transiciones
+Para correr la prueba de performance:
 
-### 🔧 **4. Arquitectura y Performance**
+1. Inicia el servidor local:
+   ```bash
+   npm run dev
+   ```
+2. En otra terminal, ejecuta:
+   ```bash
+   npm run lighthouse
+   ```
 
-**Demuestra conocimientos avanzados:**
-```bash
-# Gestión de estado (elige):
-yarn add zustand # Ligero y simple
-yarn add @reduxjs/toolkit # Completo y establecido
-
-# Optimizaciones:
-yarn add react-window # Virtualización
-yarn add @tanstack/react-query # Cache y sincronización
-```
-
-**Implementaciones esperadas:**
-- ✅ **Custom hooks** para lógica reutilizable
-- ✅ **Memoización** inteligente (React.memo, useMemo, useCallback)
-- ✅ **Code splitting** con React.lazy
-- ✅ **Optimistic updates** en Kanban
-- ✅ **Error boundaries** y loading states
-
-### 🎨 **5. Micro-interacciones y UX**
-
-**Crea una experiencia premium:**
-```bash
-# Animaciones y transiciones:
-yarn add framer-motion # Animaciones avanzadas
-yarn add react-spring # Físicas naturales
-yarn add lottie-react # Animaciones complejas
-```
-
-**Elementos a implementar:**
-- ✅ **Transiciones suaves** entre páginas
-- ✅ **Hover effects** en cards y botones
-- ✅ **Loading states** elegantes
-- ✅ **Toast notifications** para feedback
-- ✅ **Skeleton screens** durante carga
-
-### 🧪 **6. Testing y Calidad (Opcional)**
-
-**Demuestra buenas prácticas:**
-```bash
-# Testing avanzado:
-yarn add @testing-library/user-event
-yarn add msw # Mock Service Worker
-yarn add @storybook/react # Componentes aislados
-```
-
-**Cobertura recomendada (opcional):**
-- ✅ **Unit tests** para componentes críticos
-- ✅ **Integration tests** para flujos de usuario
-- ✅ **Accessibility tests** con axe-core
-- ✅ **Performance tests** con Lighthouse
-
-### 📊 **Criterios de Evaluación**
-
-| Área | Peso | Criterios |
-|------|------|-----------|
-| **Elección de Tecnologías** | 25% | Justificación técnica, modernidad, mantenibilidad |
-| **Diseño y UX** | 25% | Consistencia visual, accesibilidad, responsive |
-| **Funcionalidad** | 20% | Drag & drop, filtros, búsqueda, animaciones |
-| **Performance** | 15% | Optimizaciones, bundle size, load time |
-| **Testing** | 10% | Cobertura, tipos de tests, buenas prácticas *(opcional)* |
-| **Código Limpio** | 5% | Estructura, naming, documentación |
-
-### 🎯 **Entregables Esperados**
-
-1. **Repositorio funcional** con todas las mejoras implementadas
-2. **README actualizado** explicando decisiones técnicas
-3. **Documentación** de arquitectura y decisiones
-4. **Tests** con cobertura > 80% *(opcional pero recomendado)*
-
-### 🚀 **Bonus Points (Opcional)**
-
-- **Testing completo** con Storybook y cobertura > 80%
-- **CI/CD** con GitHub Actions
-- **Demo en vivo** (Vercel, Netlify, etc.)
-- **PWA** con service workers
-- **Internationalization** (i18n)
-- **Analytics** y error tracking
-- **Performance monitoring**
-
-### ⏰ **Tiempo Estimado**
-
-- **Mínimo**: 8-12 horas para implementación básica
-- **Recomendado**: 16-20 horas para versión premium
-- **Máximo**: 72 horas para implementación completa (Habiles)
-
-### 📝 **Instrucciones de Entrega**
-
-1. **Fork** este repositorio
-2. **Implementa** todas las mejoras requeridas
-3. **Documenta** tus decisiones técnicas en el README
-4. **Envía** el link del repositorio
+Esto generará el archivo `lighthouse-report.html` con el análisis de performance, accesibilidad, PWA y mejores prácticas.
 
 ---
+## Expansión de la configuración ESLint
 
-## 📄 Licencia
 
-MIT License - ver [LICENSE](LICENSE) para más detalles.
+Puedes instalar [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) y [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) para reglas específicas de React:
 
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```

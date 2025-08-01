@@ -1,49 +1,69 @@
-import React from 'react'
-import { useTheme } from '../hooks/useTheme'
+import React from 'react';
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { useTheme } from '../hooks/useTheme';
 
 const ThemeToggle: React.FC = () => {
-  const { theme, toggleTheme } = useTheme()
+  const { isDark, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-md bg-bg-tertiary hover:bg-bg-secondary transition-colors"
-      aria-label={`Cambiar a tema ${theme === 'light' ? 'oscuro' : 'claro'}`}
-      title={`Cambiar a tema ${theme === 'light' ? 'oscuro' : 'claro'}`}
+      className="
+        relative w-16 h-8 
+        bg-gray-200 dark:bg-gray-700 
+        rounded-full 
+        transition-all duration-300 ease-in-out
+        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800
+        hover:bg-gray-300 dark:hover:bg-gray-600
+        group
+      "
+      aria-label={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
     >
-      {theme === 'light' ? (
-        <svg
-          className="w-5 h-5 text-text-primary"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-          />
-        </svg>
-      ) : (
-        <svg
-          className="w-5 h-5 text-text-primary"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-          />
-        </svg>
-      )}
-    </button>
-  )
-}
+      {/* Slider */}
+      <div 
+        className={`
+          absolute top-1 left-1 w-6 h-6
+          bg-white dark:bg-gray-200
+          rounded-full shadow-md
+          transform transition-transform duration-300 ease-in-out
+          flex items-center justify-center
+          ${isDark ? 'translate-x-8' : 'translate-x-0'}
+        `}
+      >
+        {/* Icons */}
+        <SunIcon 
+          className={`
+            w-4 h-4 text-yellow-500 absolute
+            transition-all duration-300 ease-in-out
+            ${isDark ? 'opacity-0 scale-0 rotate-180' : 'opacity-100 scale-100 rotate-0'}
+          `} 
+        />
+        <MoonIcon 
+          className={`
+            w-4 h-4 text-blue-600 absolute
+            transition-all duration-300 ease-in-out
+            ${isDark ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-0 -rotate-180'}
+          `} 
+        />
+      </div>
 
-export default ThemeToggle 
+      {/* Background Icons */}
+      <div className="absolute inset-0 flex items-center justify-between px-2">
+        <SunIcon 
+          className={`
+            w-4 h-4 transition-opacity duration-300
+            ${isDark ? 'text-gray-400 opacity-50' : 'text-yellow-400 opacity-80'}
+          `} 
+        />
+        <MoonIcon 
+          className={`
+            w-4 h-4 transition-opacity duration-300
+            ${isDark ? 'text-blue-400 opacity-80' : 'text-gray-400 opacity-50'}
+          `} 
+        />
+      </div>
+    </button>
+  );
+};
+
+export default ThemeToggle;
